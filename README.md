@@ -69,7 +69,7 @@ pnpm run dev
 
 ## Usage
 
-- The application replies with a list of commands when I send a message with the content "!help".
+- The application replies with a list of commands when the author send a message with the content "!help".
 
 ![alt text](./resources/image-2.png)
 
@@ -78,6 +78,7 @@ pnpm run dev
 - [ ] Add a command to mention everyone in the group.
 - [ ] Put the hardcoded group name in .env to ease configuration. 
 - [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
+- [ ] Add a logger.
 - [ ] Add more functionality to googleSheets repository.
 
 ## Notes
