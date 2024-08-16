@@ -82,6 +82,7 @@ pnpm run dev
 ## Notes
 
 - This project is still in development and is constantly updated.
+- Thankful for the opportunity, the support, ideas, inspiration, and love that God put in me through people and the internet 😂. Thank you!
 
 ## License
 
