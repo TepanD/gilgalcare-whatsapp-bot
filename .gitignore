@@ -1,0 +1,10 @@
+.wwebjs_auth
+.wwebjs_cache 
+/.wwebjs_auth/
+/.wwebjs_cache/
+
+dist
+node_modules
+.env
+
+credentials.json
