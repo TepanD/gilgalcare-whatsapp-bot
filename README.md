@@ -7,7 +7,7 @@ Welcome! **newcomer-whatsapp-bot** is a project to lighten the work of the autho
 Inspirations that leads the author to developing this project 🚀✨
 
 - 🔥 [vinibgoulart/wpp-sheets-party-list](https://github.com/vinibgoulart/wpp-sheets-party-list/)
-- Random tutorials on *youtube* using **autoreplychatbot** and **Google AppsScript**.
+- Random tutorials on *youtube* using **autoreplychatbot** and **Google AppsScript** WHICH the author is trying to avoid because it has so many drawbacks such as the **autoreplychatbot** has to be running all the time on our phone.
 
 ## Tech Stack 🛠️
 
