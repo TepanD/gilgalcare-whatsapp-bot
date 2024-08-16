@@ -9,7 +9,7 @@
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/src/index.js",
     "build": "swc src -d dist --copy-files",
     "start": "NODE_ENV=production node dist/index.js",
-    "clean": "rm -rf dist"
+    "clean": "rmdir -r dist"
   },
   "keywords": [],
   "author": "",
