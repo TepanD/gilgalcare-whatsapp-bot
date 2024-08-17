@@ -76,7 +76,7 @@ pnpm run dev
 ## Improvements
 
 
-- [ ] Put the hardcoded group name in .env to ease configuration. 
+- [x] Put the hardcoded group name in .env to ease configuration. 
 - [ ] Add a logger.
 - [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
 
