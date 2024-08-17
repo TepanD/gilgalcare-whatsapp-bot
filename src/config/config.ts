@@ -21,7 +21,8 @@ const {
     GOOGLE_AUTH_PROVIDER,
     GOOGLE_CLIENT_CERT_URL,
     GOOGLE_SHEETS_ID,
-    GOOGLE_SHEET_NAME
+    GOOGLE_SHEET_NAME,
+    WHATSAPP_GROUP_NAME
 } = process.env;
 
 export const config = {
@@ -35,5 +36,6 @@ export const config = {
     GOOGLE_AUTH_PROVIDER,
     GOOGLE_CLIENT_CERT_URL,
     GOOGLE_SHEETS_ID,
-    GOOGLE_SHEET_NAME
+    GOOGLE_SHEET_NAME,
+    WHATSAPP_GROUP_NAME
 };
