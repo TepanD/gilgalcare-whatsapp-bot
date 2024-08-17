@@ -75,11 +75,15 @@ pnpm run dev
 
 ## Improvements
 
-- [ ] Add a command to mention everyone in the group.
+
 - [ ] Put the hardcoded group name in .env to ease configuration. 
-- [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
 - [ ] Add a logger.
-- [ ] Add more functionality to googleSheets repository.
+- [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
+
+
+- Feature wishlist:
+  - [ ] Add a command to mention everyone in the group.
+  - [ ] Add a command to download the google sheet file in use.
 
 ## Notes
 
