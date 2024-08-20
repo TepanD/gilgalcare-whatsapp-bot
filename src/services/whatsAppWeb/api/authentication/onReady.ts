@@ -1,13 +1,14 @@
+import logger from "../../../../libraries/logger/logger";
 import { client } from "../../client";
+import { groupChatId } from "../groupChat/groupChat";
 
 export const onReady = async () => {
   client.on("ready", async () => {
-    console.log("WAWeb client successfully logged in!");
+    logger.info("WAWeb client successfully logged in");
 
-    const chats = await client.getChats(); 
-    const groupChat = chats.filter(ch => ch.name ==="testing doank")[0];
-    const chatId = groupChat.id._serialized;
+    const chatId = await groupChatId();
 
-    client.sendMessage(chatId, "Whatsapp bot successfully started! 👋🥹🚀🚀"); 
+    client.sendMessage(chatId, "Whatsapp bot successfully started! 🚀🚀"); 
+    logger.info(`newcomer-whatsapp-bot successfully started in ${chatId}`);
   });
 };

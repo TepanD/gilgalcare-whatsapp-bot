@@ -1,6 +1,7 @@
 import { Message } from "whatsapp-web.js";
 import birthDateValidation from "../../../../libraries/validation/birthDateValidation";
 import newcomerController from "../../../newcomer/api/newcomerController";
+import logger from "../../../../libraries/logger/logger";
 
 const addNewcomerInternal =  async(
     spreadSheetId: string,
@@ -9,7 +10,7 @@ const addNewcomerInternal =  async(
     const data = message.body.split("#");
     data.shift();
     const trimmedData = data.map((value)=> (value.trim()));
-    console.log("data:", trimmedData);
+    logger.info("RECEIVED DATA:", trimmedData);
 
     /*
     data array: 
@@ -47,7 +48,7 @@ const addNewcomerExternal = async (
       message.react("❌");
     }
 
-    console.log(extractedData);
+    logger.info(extractedData);
     const dataArray = [
         extractedData.name,
         extractedData.birthDate,
@@ -74,6 +75,7 @@ const addNewcomerExternal = async (
 }
 
 const extractDataFormExternal = (input: string) : Newcomer => {
+    //split data per line
     const dataPerLine = input.split("\n").map(line => line.trim());
     
     //TEST: Kalau formnya langsung dimulai dengan label, ini bisa dihapus

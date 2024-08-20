@@ -1,6 +1,5 @@
 import { Client, LocalAuth } from "whatsapp-web.js";
 import { onReady } from "./api/authentication/onReady";
-// import { onMessage } from "./onMessage";
 import { onAuthFailure } from "./api/authentication/onAuthFailure";
 import { onQrCode } from "./api/authentication/onQrCode";
 
@@ -9,6 +8,7 @@ export const client = new Client({
   authTimeoutMs: 60 * 1000,
   puppeteer: {
     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    handleSIGINT: false,
   },
 });
 

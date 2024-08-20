@@ -43,7 +43,7 @@ export const onMessage = async () => {
         case "!form-internal":
           msg.reply(
             `*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n`+   
-            `daftar #nama #tanggal lahir (dd/MM/YYYY) #tempat lahir`);
+            `daftar #nama #tanggal lahir (DD/MM/YYYY) #tempat lahir`);
           return;
         
         case "!form-external":

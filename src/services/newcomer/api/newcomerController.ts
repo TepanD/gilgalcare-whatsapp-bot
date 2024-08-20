@@ -2,6 +2,7 @@ import { getSheetsService } from "../../googleSheets/sheetsService";
 import sheetsRepo from "../../googleSheets/repository/sheetsRepo";
 import numberHelper from "../../../libraries/helpers/numberHelper";
 import { config } from "../../../config/config";
+import logger from "../../../libraries/logger/logger";
 
 const SHEET_NAME = config.GOOGLE_SHEET_NAME ?? "";
 
@@ -29,7 +30,7 @@ const insertNewcomer  = async (
     //do not change parenthesis, calculation might differ
     const newcomerId = "UNI" + ((lastIdNumber ?? 0) + 1).toString().padStart(4, "0");
     const data = [newcomerId, ...newcomerData];
-    console.log("data: ", data);
+    logger.info("INSERT NEWCOMER DATA: ", data);
 
     try {
         const insertResult = await sheetsRepo.insertNewRow(sheetsService, spreadSheetId, newRowIndex, data);
@@ -39,7 +40,7 @@ const insertNewcomer  = async (
         return returnResponse;
     }
     catch(err: any){
-        console.error("ERROR:", err);;
+        logger.error("ERROR:", err);;
         returnResponse.isSuccess = false;
         returnResponse.message = err.toString();
         return returnResponse;
