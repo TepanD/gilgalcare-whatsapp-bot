@@ -3,12 +3,14 @@ import { client } from "../../client";
 import { groupChatId } from "../groupChat/groupChat";
 
 export const onReady = async () => {
-  client.on("ready", async () => {
-    logger.info("WAWeb client successfully logged in");
+	client.on("ready", async () => {
+		logger.info("WAWeb client successfully logged in", { from: "onReady()" });
 
-    const chatId = await groupChatId();
+		const chatId = await groupChatId();
 
-    client.sendMessage(chatId, "Whatsapp bot successfully started! 🚀🚀"); 
-    logger.info(`newcomer-whatsapp-bot successfully started in ${chatId}`);
-  });
+		client.sendMessage(chatId, "Whatsapp bot successfully started! 🚀🚀");
+		logger.info(`newcomer-whatsapp-bot successfully started in ${chatId}`, {
+			from: "onReady()",
+		});
+	});
 };
