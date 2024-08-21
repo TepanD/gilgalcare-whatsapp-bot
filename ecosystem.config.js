@@ -2,14 +2,20 @@
 module.exports = {
 	apps: [
 		{
-			name: "wa-chatbot",
+			name: "gilgalunicare-wa-chatbot",
 			script: "./dist/src/index.js",
-			shutdown_with_message: true,
 			autorestart: false,
 			kill_timeout: 5000,
-			env: {
+			env_development: {
+				NODE_ENV: "development",
+			},
+			env_production: {
 				NODE_ENV: "production",
 			},
+
+			//shutdown with message
+			//because somehow pm2 "sendSignal SIGINT" command doesn't work.
+			shutdown_with_message: true,
 		},
 	],
 };

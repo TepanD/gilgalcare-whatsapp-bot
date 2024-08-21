@@ -1,23 +1,24 @@
 {
   "name": "newcomer-whatsapp-bot",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
     "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
     "watch-compile": "swc src -w --out-dir dist --copy-files",
     "watch-dev": "nodemon --watch \"dist/**/*\" -e js ./dist/src/index.js",
-    "build": "swc src -d dist --copy-files",
     "start": "SET NODE_ENV=production & node dist/src/index.js",
+    "pm2:start": "pm2 start ecosystem.config.js --env production",
+    "pm2:dev": "pm2 start ecosystem.config.js --env development",
+    "build": "swc src -d dist --copy-files",
     "clean": "rmdir -r dist"
   },
   "keywords": [],
-  "author": "",
+  "author": "Stefan Dharmawan <stefanwork12@gmail.com> (https://github.com/TepanD)",
   "license": "ISC",
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
     "@types/qrcode-terminal": "^0.12.2",
-    "cross-env": "^7.0.3",
     "dotenv-safe": "^9.1.0",
     "googleapis": "^140.0.1",
     "qrcode-terminal": "^0.12.0",
