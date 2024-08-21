@@ -30,17 +30,17 @@ const insertNewcomer  = async (
     //do not change parenthesis, calculation might differ
     const newcomerId = "UNI" + ((lastIdNumber ?? 0) + 1).toString().padStart(4, "0");
     const data = [newcomerId, ...newcomerData];
-    logger.info("INSERT NEWCOMER DATA: ", data);
 
     try {
         const insertResult = await sheetsRepo.insertNewRow(sheetsService, spreadSheetId, newRowIndex, data);
         if(insertResult.statusText.toLowerCase() === "ok"){
             returnResponse.message = `spreadsheet ${insertResult.data.spreadsheetId}, range ${insertResult.data.updatedRange} successfully updated.`;
         }
+        logger.info("Newcomer inserted to spreadsheet.", { data: data, from: "newcomerController.insertNewcomer()" });
         return returnResponse;
     }
     catch(err: any){
-        logger.error("ERROR:", err);;
+        logger.error("Error when inserting data.", { err, from: "newcomerController.insertNewcomer()" });;
         returnResponse.isSuccess = false;
         returnResponse.message = err.toString();
         return returnResponse;

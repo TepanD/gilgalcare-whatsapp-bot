@@ -10,7 +10,7 @@ const addNewcomerInternal =  async(
     const data = message.body.split("#");
     data.shift();
     const trimmedData = data.map((value)=> (value.trim()));
-    logger.info("RECEIVED DATA:", trimmedData);
+    logger.info("Newcomer data received", { data: trimmedData, type: "internal", from: "newcomerEvents.addNewcomerInternal()" });
 
     /*
     data array: 
@@ -48,7 +48,7 @@ const addNewcomerExternal = async (
       message.react("❌");
     }
 
-    logger.info(extractedData);
+    logger.info("Newcomer data received", { data: extractedData, type: "external", from: "newcomerEvents.addNewcomerExternal()" });
     const dataArray = [
         extractedData.name,
         extractedData.birthDate,

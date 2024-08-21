@@ -6,7 +6,6 @@ import newcomerEvents from "./newcomerEvents";
 const SHEET_ID = config.GOOGLE_SHEETS_ID ?? "";
 const GROUP_NAME= config.WHATSAPP_GROUP_NAME ?? "";
 
-
 export const onMessage = async () => {
   client.on("message_create", async (msg) => {
     //get chat data.
@@ -26,7 +25,8 @@ export const onMessage = async () => {
         return;
       }
       
-      switch (msg.body) {
+      //commands
+      switch (msg.body.toLocaleLowerCase()) {
         case "!help":
           msg.reply(
             `✨✨*LIST OF COMMANDS*✨✨ \n\n`+

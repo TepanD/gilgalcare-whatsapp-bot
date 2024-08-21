@@ -9,6 +9,7 @@ export const groupChatId = async ()=>{
     const chats = await client.getChats(); 
     const groupChat = chats.filter(ch => ch.name === WA_GROUP_NAME)[0];
     const chatId = groupChat.id._serialized;
+    logger.info("successfully retrieved groupChatId", { from: "groupChat.groupChatId()", groupChatId: chatId });
     return chatId;
 }
 

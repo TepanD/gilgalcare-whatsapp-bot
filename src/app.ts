@@ -8,26 +8,34 @@ export const app = ()=>{
     writeCredentials();
     connectClient();
     onMessage();
+    onShutDown();
+}
 
+const onShutDown = ()=>{
     // keep process running when ctrl+c is pressed
     process.stdin.resume(); 
 
-    // execute when ctrl+c is pressed
-    process.once("SIGINT", ()=>{
-        try{
-            exitHandler();
-        }
-        catch(error: any){
-            console.error("Error during shutdoown: ", error.message);
-            process.exit(1);
-        }
+    // nodejs process POSIX events
+    const signals = ["SIGINT", "SIGTERM", "SIGQUIT"];
+
+    signals.forEach(signal =>{
+        process.once(signal.toString(), ()=>{
+            try{
+                exitHandler();
+                setTimeout(()=>{
+                    process.exit(0);
+                }, 3000);
+            }
+            catch(error: any){
+                logger.error("Error during shutdown", {errorMessage: error.message, from: "app.app()"});
+                process.exit(1);
+            }
+        });
     });
 }
 
 const exitHandler = async() =>{
     const chatId = await groupChatId();
-    logger.info(chatId);
     await client.sendMessage(chatId, "Whatsapp bot shutting down! Thank you. 👋🥹");
-    logger.info("Application shutting down.");    
-    // process.exit(0);  
+    logger.info("Application shutting down.", { from: "app.exitHandler()" });    
 }
