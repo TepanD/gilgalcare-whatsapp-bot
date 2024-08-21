@@ -1,4 +1,4 @@
-# newcomer-whatsapp-bot
+# gilgalcare-whatsapp-bot
 
 Welcome! **newcomer-whatsapp-bot** is a project to lighten the work of the author's church (shoutout: GILGAL Centre Jakarta) community volunteers in managing newcomers, which usually inserted by third party form. Leveraging **whatsapp-web.js** to interact with this application and **google sheets** as a database.
 
