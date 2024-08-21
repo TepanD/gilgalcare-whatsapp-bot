@@ -8,6 +8,7 @@ if (!fs.existsSync(logDir)) {
 	fs.mkdirSync(logDir);
 }
 
+//transport file options
 const transportFile = new DailyRotateFile({
 	level: "info",
 	filename: "newcomer-whatsapp-bot-%DATE%.log",
@@ -19,16 +20,17 @@ const transportFile = new DailyRotateFile({
 	format: format.combine(format.json()),
 });
 
+//transport console options
 const consoleFormat = format.printf(({ level, message, label, timestamp }) => {
 	return `${timestamp} ${level} [${label}]: ${message}`;
 });
-
 const transportConsole = new transports.Console({
+	level: "debug",
 	format: format.combine(format.colorize(), format.splat(), consoleFormat),
 });
 
+//create logger
 const logger = winston.createLogger({
-	level: "info",
 	format: format.combine(
 		format.label({
 			label: path.basename(require.main?.filename ?? ""),
