@@ -4,8 +4,10 @@ module.exports = {
 		{
 			name: "gilgalunicare-wa-chatbot",
 			script: "./dist/src/index.js",
-			autorestart: false,
+			autorestart: true,
+			restart_delay: 3000,
 			kill_timeout: 5000,
+			stop_exit_codes: [0],
 			env_development: {
 				NODE_ENV: "development",
 			},
