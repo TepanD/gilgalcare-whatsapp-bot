@@ -3,17 +3,18 @@ module.exports = {
 	apps: [
 		{
 			name: "gilgalunicare-wa-chatbot",
-			script: "./dist/src/index.js",
-			autorestart: true,
+			script: "./build/index.js",
+			autorestart: false,
 			restart_delay: 3000,
 			kill_timeout: 5000,
 			stop_exit_codes: [0],
-			env_development: {
-				NODE_ENV: "development",
-			},
-			env_production: {
+			env: {
 				NODE_ENV: "production",
 			},
+
+			//find root of node_modules folder with `npm root -g`
+			//format: <npm root path>/bun/bin/bun.exe
+			interpreter: "<npm root path>/bun/bin/bun.exe",
 
 			//shutdown with message
 			//because somehow pm2 "sendSignal SIGINT" command doesn't work.
