@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "concurrently \"npm run watch-compile\" \"npm run watch-dev\"",
+    "dev": "concurrently \"bun watch-compile\" \"bun watch-dev\"",
     "watch-compile": "bun build ./src/index.ts --outdir dist --target bun --format esm --watch",
     "watch-dev": "bun run nodemon",
     "start": "NODE_ENV=production bun build/index.js",
