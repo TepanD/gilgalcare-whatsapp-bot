@@ -30,8 +30,6 @@
     "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
-    "@swc/cli": "^0.4.0",
-    "@swc/core": "^1.7.10",
     "@types/bun": "latest",
     "@types/dotenv-safe": "^8.1.6",
     "concurrently": "^8.2.2",

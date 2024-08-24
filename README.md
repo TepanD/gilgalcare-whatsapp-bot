@@ -54,10 +54,10 @@ npm install
 | ---------- | ---- | ------------ | ------- |
 | UNI00001   | name | birthDate    | address |
 
-5. Run the project using the following command. Package manager pnpm (https://pnpm.io/), that was installed with the command `npm install`, can be used instead of npm.
+5. Run the project using the following command using npm, or any script runner you have e.g. bun and pnpm.
 
 ```bash
-pnpm run dev
+npm run dev
 ```
 
 6. A qr code will appear in the terminal when running the project. Scan the qr with WhatsApp qr scanner to allow the applicatioon to log in to WhatsAppWeb. The application will log "WAWeb connected successfully" or anything similar to indicate that the WAWeb client is connected.
@@ -75,6 +75,7 @@ pnpm run dev
 
 ## Improvements
 
+- [ ] Add dev & prod env.
 - [x] Put the hardcoded group name in .env to ease configuration.
 - [x] Add a logger.
 - [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
