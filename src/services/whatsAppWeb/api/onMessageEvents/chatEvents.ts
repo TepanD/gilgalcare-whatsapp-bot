@@ -1,12 +1,12 @@
-import { Message } from "whatsapp-web.js";
+import type { Message } from "whatsapp-web.js";
 
-export const clearMessages = async (msg: Message)=>{
-    const chat = msg.getChat();
-    const clearResult = (await chat).clearMessages();
-}
+export const clearMessages = async (msg: Message) => {
+	const chat = msg.getChat();
+	(await chat).clearMessages();
+};
 
 const chatEvents = {
-    clearMessages
-}
+	clearMessages,
+};
 
 export default chatEvents;
