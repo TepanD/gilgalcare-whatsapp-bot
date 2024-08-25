@@ -1,15 +1,19 @@
+node_modules
+bun.lockb
+
+#WAWeb authentication session folder
 .wwebjs_auth
 .wwebjs_cache 
 /.wwebjs_auth/
 /.wwebjs_cache/
 
+#build output dir
 dist
-node_modules
+
 .env
 logs
-
 TODO.md
 
+#googleapis credentials
 credentials.json
-
-bun.lockb
+pm2.config.js
