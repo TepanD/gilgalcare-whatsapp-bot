@@ -7,7 +7,7 @@
     "dev": "concurrently \"bun watch-compile\" \"bun watch-dev\"",
     "watch-compile": "bun build ./src/index.ts --outdir dist --target bun --format esm --watch",
     "watch-dev": "bun run nodemon",
-    "start": "NODE_ENV=production bun build/index.js",
+    "start": "NODE_ENV=production bun dist/index.js",
     "pm2:start": "pm2 start pm2.config.js",
     "build": "bun build ./src/index.ts --outdir dist --target bun --format esm",
     "compile": "bun build --compile --minify --sourcemap ./src/index.ts --outfile gilgalcare-wa-bot",
