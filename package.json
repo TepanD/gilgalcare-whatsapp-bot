@@ -10,6 +10,7 @@
     "start": "NODE_ENV=production bun build/index.js",
     "pm2:start": "pm2 start pm2.config.js",
     "build": "bun build ./src/index.ts --outdir dist --target bun --format esm",
+    "compile": "bun build --compile --minify --sourcemap ./src/index.ts --outfile gilgalcare-wa-bot",
     "clean": "rmdir -r dist"
   },
   "keywords": [
