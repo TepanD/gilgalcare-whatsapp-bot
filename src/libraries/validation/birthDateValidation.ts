@@ -10,7 +10,7 @@ const formatBirthdate = (birthDate: string) => {
 	);
 
 	//convert format birthDate: DD/MM/YYYY
-	const formattedDate = new Intl.DateTimeFormat("en-UK").format(date);
+	const formattedDate = new Intl.DateTimeFormat("en-GB").format(date);
 	return formattedDate;
 };
 
