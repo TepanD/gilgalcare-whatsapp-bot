@@ -8,7 +8,11 @@ export const onReady = async () => {
 
 		const chatId = await groupChatId();
 
-		client.sendMessage(chatId, "Whatsapp bot successfully started! 🚀🚀");
+		client.sendMessage(
+			chatId,
+			"Whatsapp bot successfully started! 🚀🚀" +
+				"\n\nSend *!help* to get more info"
+		);
 		logger.info(`newcomer-whatsapp-bot successfully started in ${chatId}`, {
 			from: "onReady()",
 		});
