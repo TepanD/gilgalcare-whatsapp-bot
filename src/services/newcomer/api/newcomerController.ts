@@ -9,7 +9,9 @@ const SHEET_NAME = config.GOOGLE_SHEET_NAME ?? "";
 
 const insertNewcomer = async (
 	spreadSheetId: string,
-	newcomerData: string[]
+	newcomerData: string[],
+	entryType: "INTERNAL" | "EXTERNAL",
+	operator: string
 ): Promise<ResponseHelper> => {
 	const sheetsService = await getSheetsService();
 	const returnResponse: ResponseHelper = {
@@ -25,33 +27,31 @@ const insertNewcomer = async (
 	if (newRowIndex == null) {
 		returnResponse.isSuccess = false;
 		returnResponse.message =
-			"Last newcomer ID not found, please check google sheet.";
+			"Error in fetching sheet's last row, please check google sheet.";
 		return returnResponse;
 	}
 
-	// const ids = (await sheetsRepo.getRowValue(
-	// 	sheetsService,
-	// 	spreadSheetId,
-	// 	"test_byWA!A2:A"
-	// )) ?? [[0]];
-	// let numberizedIds: number[] = [];
-	// if (ids.length == 1 && ids[0][0] == 0) {
-	// 	numberizedIds = [0];
-	// } else {
-	// 	numberizedIds = ids.map((value) => numberHelper.getDigit(value[0]) ?? 0);
-	// }
-	// const lastIdNumber = Math.max(...numberizedIds);
-
-	// //do not change parenthesis, calculation might differ
-	// const newcomerId =
-	// 	"UNI" + ((lastIdNumber ?? 0) + 1).toString().padStart(5, "0");
+	//generate newcomer id
 	const generateNewcomerIdResponse = await generateNewComerID(
 		sheetsService,
 		spreadSheetId,
 		returnResponse
 	);
 	if (!generateNewcomerIdResponse.isSuccess) return generateNewcomerIdResponse;
-	const data = [generateNewcomerIdResponse.message ?? "", ...newcomerData];
+
+	//create metadata
+	const today = new Date();
+	const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+	//convert format: DD/MM/YYYY
+	const entryDate = new Intl.DateTimeFormat("en-GB").format(date);
+	const metadata = [entryType, entryDate, operator];
+
+	//finalize row to be inserted
+	const data = [
+		generateNewcomerIdResponse.object ?? "",
+		...newcomerData,
+		...metadata,
+	];
 
 	try {
 		const insertResult = await sheetsRepo.insertNewRow(
@@ -84,45 +84,44 @@ const generateNewComerID = async (
 	spreadSheetId: string,
 	returnResponse: ResponseHelper
 ): Promise<ResponseHelper> => {
-	const newRowIndex = await sheetsRepo.getAfterLastRowIndex(
-		sheetsService,
-		spreadSheetId,
-		SHEET_NAME
-	);
-	if (newRowIndex == null) {
-		returnResponse.isSuccess = false;
-		returnResponse.message =
-			"Last newcomer ID not found, please check google sheet.";
-		return returnResponse;
-	}
-
 	const ids = (await sheetsRepo.getRowValue(
 		sheetsService,
 		spreadSheetId,
 		"test_byWA!A2:A"
 	)) ?? [[0]];
-	let numberizedIds: number[] = [];
-	if (ids.length == 1 && ids[0][0] == 0) {
-		numberizedIds = [0];
-	} else {
-		numberizedIds = ids.map((value) => numberHelper.getDigit(value[0]) ?? 0);
-	}
-	const lastIdNumber = Math.max(...numberizedIds);
 
 	const today = new Date();
 	const year = today.getFullYear().toString();
-	const month = today.getMonth().toString().padStart(2, "0");
+	const month = (today.getMonth() + 1).toString().padStart(2, "0");
 	const date = today.getDate().toString().padStart(2, "0");
+	const todayString = year + month + date;
 
-	//do not change parenthesis, calculation might differ
+	//find all ids created today.
+	const filteredIds = ids.filter((id) => {
+		const datePart = id.toString().slice(3, 11); // Extracts the 'YYYYMMDD' part from the ID
+		return datePart === todayString;
+	});
+
+	//get last index of today
+	let numberizedIds: number[] = [];
+	if (filteredIds.length == 1 && filteredIds[0][0] == 0) {
+		numberizedIds = [0];
+	} else {
+		numberizedIds = filteredIds.map(
+			(value) => numberHelper.getIdIndex(value[0]) ?? 0
+		);
+	}
+	const lastIdNumber = Math.max(...numberizedIds);
+
 	const newcomerId =
 		"UNI" +
 		year +
 		month +
 		date +
+		//do not change parenthesis, calculation might differ
 		((lastIdNumber ?? 0) + 1).toString().padStart(3, "0");
 	returnResponse.isSuccess = true;
-	returnResponse.message = newcomerId;
+	returnResponse.object = newcomerId;
 	return returnResponse;
 };
 

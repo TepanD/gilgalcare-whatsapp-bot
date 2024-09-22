@@ -1,7 +1,8 @@
 interface Newcomer {
-    name: string;
-    birthDate: string;
-    address: string;
+	name: string;
+	gender: string;
+	birthDate: string;
+	age: string;
+	waNumber: string;
+	famCell: string;
 }
-
-

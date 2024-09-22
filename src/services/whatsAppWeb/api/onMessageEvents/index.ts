@@ -1,3 +1,4 @@
+// import logger from "../../../../libraries/logger/logger";
 import { config } from "../../../../config/config";
 import { client } from "../../client";
 import chatEvents from "./chatEvents";
@@ -10,6 +11,9 @@ export const onMessage = async () => {
 	client.on("message_create", async (msg) => {
 		//get chat data.
 		const chatData = await msg.getChat();
+		// const contact = await msg.getContact();
+
+		// logger.debug(contact.number.toString());
 
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME) {
@@ -20,7 +24,7 @@ export const onMessage = async () => {
 				return;
 			}
 
-			if (msg.body.toLowerCase().startsWith("test")) {
+			if (msg.body.toLowerCase().startsWith("nama:")) {
 				await newcomerEvents.addNewcomerExternal(spreadSheetId, msg);
 				return;
 			}
@@ -30,6 +34,8 @@ export const onMessage = async () => {
 				case "!help":
 					msg.reply(
 						`✨✨ *LIST OF COMMANDS* ✨✨ \n\n` +
+							`--------------------------------\n` +
+							`GILGAL UNI CHATBOT DEMO\n` +
 							`--------------------------------\n` +
 							`📌LIST OF FORMS\n\n` +
 							`  ✳️  !form-internal\n` +
@@ -43,17 +49,17 @@ export const onMessage = async () => {
 				case "!form-internal":
 					msg.reply(
 						`*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n` +
-							`daftar #nama #tanggal lahir (DD/MM/YYYY) #tempat lahir`
+							`daftar #nama #(M/F) #umur(dalam tahun) #nomorWA #familyCell`
 					);
 					return;
 
 				case "!form-external":
 					msg.reply(
 						`*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n` +
-							`test\n` +
 							`Nama: \n` +
+							`Gender: M/F \n` +
 							`Tanggal Lahir: DD/MM/YYYY\n` +
-							`Alamat: \n`
+							`Nomor WA: \n`
 					);
 					return;
 
@@ -62,6 +68,7 @@ export const onMessage = async () => {
 					return;
 
 				default:
+					// msg.reply(`welcome to GILGAL WA CHATBOT DEMO`);
 					return;
 			}
 		}
