@@ -24,7 +24,7 @@ export const onMessage = async () => {
 				return;
 			}
 
-			if (msg.body.toLowerCase().startsWith("nama:")) {
+			if (msg.body.toLowerCase().startsWith("form uni")) {
 				await newcomerEvents.addNewcomerExternal(spreadSheetId, msg);
 				return;
 			}
@@ -56,6 +56,7 @@ export const onMessage = async () => {
 				case "!form-external":
 					msg.reply(
 						`*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n` +
+							`FORM UNI \n` +
 							`Nama: \n` +
 							`Gender: M/F \n` +
 							`Tanggal Lahir: DD/MM/YYYY\n` +

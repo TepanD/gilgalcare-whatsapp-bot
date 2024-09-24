@@ -123,10 +123,10 @@ const extractDataFormExternal = (input: string): Newcomer => {
 	//split data per line
 	const dataPerLine = input.split("\n").map((line) => line.trim());
 
-	const namaMatch = dataPerLine[0].match(/Nama:\s*(.*)$/m);
-	const genderMatch = dataPerLine[1].match(/Gender:\s*(.*)$/m);
-	const tanggalLahirMatch = dataPerLine[2].match(/Tanggal Lahir:\s*(.*)$/m);
-	const nomorWAMatch = dataPerLine[3].match(/Nomor WA:\s*(.*)$/m);
+	const namaMatch = dataPerLine[1].match(/Nama:\s*(.*)$/m);
+	const genderMatch = dataPerLine[2].match(/Gender:\s*(.*)$/m);
+	const tanggalLahirMatch = dataPerLine[3].match(/Tanggal Lahir:\s*(.*)$/m);
+	const nomorWAMatch = dataPerLine[4].match(/Nomor WA:\s*(.*)$/m);
 
 	const namaValue =
 		namaMatch && namaMatch[1].trim() !== "" ? namaMatch[1].trim() : null;

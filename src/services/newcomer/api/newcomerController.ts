@@ -98,13 +98,15 @@ const generateNewComerID = async (
 
 	//find all ids created today.
 	const filteredIds = ids.filter((id) => {
-		const datePart = id.toString().slice(3, 11); // Extracts the 'YYYYMMDD' part from the ID
+		if (id[0] === 0) return false;
+
+		const datePart = id[0].slice(3, 11); // Extracts the 'YYYYMMDD' part from the ID
 		return datePart === todayString;
 	});
 
-	//get last index of today
+	//get last index of today if any
 	let numberizedIds: number[] = [];
-	if (filteredIds.length == 1 && filteredIds[0][0] == 0) {
+	if (filteredIds.length == 0 || filteredIds[0][0] == 0) {
 		numberizedIds = [0];
 	} else {
 		numberizedIds = filteredIds.map(
