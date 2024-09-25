@@ -40,10 +40,8 @@ const insertNewcomer = async (
 	if (!generateNewcomerIdResponse.isSuccess) return generateNewcomerIdResponse;
 
 	//create metadata
-	const today = new Date();
-	const date = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-	//convert format: DD/MM/YYYY
-	const entryDate = new Intl.DateTimeFormat("en-GB").format(date);
+	const now = new Date();
+	const entryDate = now.toISOString();
 	const metadata = [entryType, entryDate, operator];
 
 	//finalize row to be inserted

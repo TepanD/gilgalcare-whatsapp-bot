@@ -5,12 +5,12 @@ import newcomerValidation from "../../../../libraries/validation/newcomerDataVal
 
 const addNewcomerInternal = async (spreadSheetId: string, message: Message) => {
 	const data = message.body.split("#");
-	const operator = message.author;
+	const operator = (await message.getContact()).number;
 
 	//remove first element "daftar"
 	data.shift();
 	let trimmedData = data.map((value) => value.trim());
-	logger.info("Newcomer data received", {
+	logger.info(`Newcomer data received from ${operator}`, {
 		data: trimmedData,
 		type: "INTERNAL",
 		from: "newcomerEvents.addNewcomerInternal()",
@@ -52,7 +52,7 @@ const addNewcomerInternal = async (spreadSheetId: string, message: Message) => {
 		operator ?? ""
 	);
 	if (!insertResult.isSuccess) {
-		message.reply(insertResult.message ?? "Terdapat kesalahan import data");
+		message.reply(insertResult.message ?? "Error inserting data.");
 		message.react("❌");
 		return;
 	}
@@ -71,14 +71,14 @@ const addNewcomerExternal = async (spreadSheetId: string, message: Message) => {
 		- famcell
 		*/
 	const extractedData = extractDataFormExternal(message.body.toString());
-	const operator = message.author;
+	const operator = (await message.getContact()).number;
 
 	if (extractedData.name === "") {
 		message.reply("Data input is not valid, kindly recheck the values.");
 		message.react("❌");
 	}
 
-	logger.info("Newcomer data received", {
+	logger.info(`Newcomer data received from ${operator}`, {
 		data: extractedData,
 		type: "EXTERNAL",
 		from: "newcomerEvents.addNewcomerExternal()",
@@ -142,7 +142,7 @@ const extractDataFormExternal = (input: string): Newcomer => {
 			: null;
 	const ageValue = calculateAge(tanggalLahirValue ?? "");
 
-	return {
+	const data = {
 		name: namaValue ?? "",
 		gender: genderValue ?? "",
 		birthDate: tanggalLahirValue ?? "",
@@ -150,6 +150,7 @@ const extractDataFormExternal = (input: string): Newcomer => {
 		waNumber: nomorWAValue ?? "",
 		famCell: "",
 	};
+	return data;
 };
 
 const calculateAge = (birthDateString: string): string => {
