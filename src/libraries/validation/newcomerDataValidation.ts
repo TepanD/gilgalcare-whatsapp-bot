@@ -15,12 +15,21 @@ const newcomerValidation = (arrayData: string[]): ResponseHelper => {
 	*/
 
 	//newcomer name
+	if (
+		arrayData[0] === null ||
+		arrayData[0] === undefined ||
+		arrayData[0] === ""
+	) {
+		returnResponse.isSuccess = false;
+		returnResponse.message = "Silakan isi kolom nama";
+		return returnResponse;
+	}
 	arrayData[0] = arrayData[0].toUpperCase();
 
 	//gender
 	if (arrayData[1] !== "F" && arrayData[1] !== "M") {
 		returnResponse.isSuccess = false;
-		returnResponse.message = "Data gender harus berupa M atau F";
+		returnResponse.message = "Gender harus berupa M atau F";
 		return returnResponse;
 	}
 
@@ -35,8 +44,19 @@ const newcomerValidation = (arrayData: string[]): ResponseHelper => {
 		}
 	}
 
-	//famcell leader
-	arrayData[5] = arrayData[5].toUpperCase();
+	//validate WA number
+	if (
+		arrayData[4] == null ||
+		arrayData[4] === undefined ||
+		arrayData[4].length < 10
+	) {
+		returnResponse.isSuccess = false;
+		returnResponse.message = "Nomor WA tidak valid";
+		return returnResponse;
+	}
+
+	//famcell leader //masih dibolehin kosong
+	arrayData[5] = arrayData[5].toUpperCase() ?? "";
 
 	returnResponse.object = arrayData;
 	return returnResponse;
