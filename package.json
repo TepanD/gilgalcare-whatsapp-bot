@@ -12,7 +12,8 @@
     "build": "bun build ./src/index.ts --outdir dist --target bun --format esm",
     "compile": "bun build --compile --minify --sourcemap ./src/index.ts --outfile gilgalcare-wa-bot",
     "clean": "rimraf dist",
-    "clean:all": "rimraf .wwebjs_auth .wwebjs_cache logs dist"
+    "clean:all": "rimraf .wwebjs_auth .wwebjs_cache logs dist",
+    "postinstall": "patch-package"
   },
   "keywords": [
     "whatsapp",
@@ -25,6 +26,7 @@
     "@types/qrcode-terminal": "^0.12.2",
     "dotenv-safe": "^9.1.0",
     "googleapis": "^140.0.1",
+    "patch-package": "^8.0.0",
     "qrcode-terminal": "^0.12.0",
     "typescript": "^5.0.0",
     "whatsapp-web.js": "^1.25.0",
