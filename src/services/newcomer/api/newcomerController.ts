@@ -41,7 +41,11 @@ const insertNewcomer = async (
 
 	//create metadata
 	const now = new Date();
-	const entryDate = now.toISOString();
+	// Get the current time in UTC and convert to local time by adding 7 hours
+	const localDate = new Date(now.getTime() + 7 * 60 * 60 * 1000);
+
+	// Format to desired string
+	const entryDate = localDate.toISOString().replace("T", " ").slice(0, -1);
 	const metadata = [entryType, entryDate, operator];
 
 	//finalize row to be inserted

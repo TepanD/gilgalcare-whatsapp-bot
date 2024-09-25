@@ -1,4 +1,3 @@
-// import logger from "../../../../libraries/logger/logger";
 import { config } from "../../../../config/config";
 import { client } from "../../client";
 import chatEvents from "./chatEvents";
@@ -19,6 +18,8 @@ export const onMessage = async () => {
 			if (element === senderNumber) {
 				IS_ADMIN = true;
 				return false;
+			} else {
+				IS_ADMIN = false;
 			}
 		});
 		console.log(`sender: ${senderNumber}, isAdmin: ${IS_ADMIN}`);
