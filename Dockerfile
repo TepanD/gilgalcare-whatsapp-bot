@@ -9,6 +9,8 @@ COPY . .
 RUN bun install
 RUN bun run build
 
+EXPOSE 8000
+
 # get chrome for puppeteer
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
 
