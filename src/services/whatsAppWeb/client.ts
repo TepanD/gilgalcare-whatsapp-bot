@@ -10,6 +10,8 @@ export const client = new Client({
 		executablePath: "/usr/bin/google-chrome-stable",
 		args: ["--no-sandbox", "--disable-setuid-sandbox"],
 		handleSIGINT: false,
+		headless: true,
+		timeout: 120000, // Set the timeout to 2 minutes
 	},
 });
 
