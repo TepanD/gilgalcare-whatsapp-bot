@@ -4,4 +4,4 @@ COPY . .
 RUN bun install
 RUN bun run build
  
-CMD ["bun", "run start"]
+CMD ["bun", "run", "start"]
