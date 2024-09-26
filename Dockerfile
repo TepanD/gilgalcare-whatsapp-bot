@@ -7,7 +7,7 @@ COPY package*.json ./
 COPY . .
 
 RUN bun install
-RUN bun run build
+RUN bun run build --sourcemap
 
 EXPOSE 8000
 
