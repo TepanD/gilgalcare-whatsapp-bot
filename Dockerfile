@@ -26,4 +26,4 @@ RUN apt-get update && apt-get install -y gnupg wget ca-certificates && \
   rm -rf /var/lib/apt/lists/*
 
 # CMD ["bun", "run", "start"]
-CMD ["bun", "./app/dist/index.js"]
+CMD ["bun", "dist/index.js"]
