@@ -1,7 +1,7 @@
 FROM oven/bun:1
 # FROM ghcr.io/puppeteer/puppeteer:20.5.0
 
-WORKDIR /
+WORKDIR /app
 
 COPY package*.json ./
 COPY . .
