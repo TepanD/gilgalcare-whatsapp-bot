@@ -21,12 +21,16 @@ const transportFile = new DailyRotateFile({
 });
 
 //transport console options
-const consoleFormat = format.printf(({ level, message, label, timestamp }) => {
-	return `${timestamp} ${level} [${label}]: ${message}`;
-});
+// const consoleFormat = format.printf(({ level, message, label, timestamp }) => {
+// 	return `${timestamp} ${level} [${label}]: ${message}`;
+// });
+// const transportConsole = new transports.Console({
+// 	level: "debug",
+// 	format: format.combine(format.colorize(), format.splat(), consoleFormat),
+// });
 const transportConsole = new transports.Console({
 	level: "debug",
-	format: format.combine(format.colorize(), format.splat(), consoleFormat),
+	format: format.combine(format.splat(), format.json()),
 });
 
 //create logger
