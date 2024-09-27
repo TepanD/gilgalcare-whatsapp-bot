@@ -69,5 +69,5 @@ RUN apt-get update && apt-get install -y gnupg wget ca-certificates && \
     fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils && \
   rm -rf /var/lib/apt/lists/*
 
-CMD ["bun", "run", "start"]
-# CMD ["bun", "/dist/index.js"]
+# CMD ["bun", "run", "start"]
+CMD ["bun", "dist/index.js"]
