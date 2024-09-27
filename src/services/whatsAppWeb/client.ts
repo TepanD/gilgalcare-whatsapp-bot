@@ -7,7 +7,11 @@ export const client = new Client({
 	authStrategy: new LocalAuth(),
 	authTimeoutMs: 60 * 1000,
 	puppeteer: {
-		args: ["--no-sandbox", "--disable-setuid-sandbox"],
+		args: [
+			"--no-sandbox",
+			"--disable-setuid-sandbox",
+			"--disable-dev-shm-usage",
+		],
 		handleSIGINT: false,
 		headless: true,
 		timeout: 120000, // Set the timeout to 2 minutes
