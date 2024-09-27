@@ -2,11 +2,7 @@ FROM --platform=linux/amd64 oven/bun:1
 
 RUN apt-get update && apt-get install -y \
       chromium \
-      nss \
-      freetype \
-      harfbuzz \
       ca-certificates \
-      ttf-freefont \
       nodejs \
       npm \
       && rm -rf /var/lib/apt/lists/*
