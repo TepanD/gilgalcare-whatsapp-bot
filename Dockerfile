@@ -2,9 +2,9 @@ FROM oven/bun:1
 WORKDIR /app
 
 COPY package*.json ./
+COPY . .
 RUN bun install
 
-COPY . .
 RUN bun run build --sourcemap
 
 EXPOSE 8000
