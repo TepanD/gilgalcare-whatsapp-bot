@@ -7,6 +7,7 @@ export const client = new Client({
 	authStrategy: new LocalAuth(),
 	authTimeoutMs: 60 * 1000,
 	puppeteer: {
+		executablePath: "/usr/bin/google-chrome-stable",
 		args: ["--no-sandbox", "--disable-setuid-sandbox"],
 		handleSIGINT: false,
 		headless: true,
