@@ -34,7 +34,7 @@
 # CMD ["bun", "run", "start"]
 # # CMD ["bun", "dist/index.js"]
 
-FROM alpine
+FROM oven/bun:alpine
 
 # Installs latest Chromium (100) package.
 RUN apk add --no-cache \
@@ -42,7 +42,6 @@ RUN apk add --no-cache \
       ca-certificates \
       nodejs \
       npm \
-      bun
 
 # Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
