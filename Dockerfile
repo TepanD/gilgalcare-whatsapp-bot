@@ -1,13 +1,19 @@
 FROM --platform=linux/amd64 oven/bun:1
 
-RUN mkdir -p /app
-WORKDIR /app
+RUN apt-get update && apt-get install -y \
+      chromium \
+      nss \
+      freetype \
+      harfbuzz \
+      ca-certificates \
+      ttf-freefont \
+      nodejs \
+      npm \
+      && rm -rf /var/lib/apt/lists/*
 
-COPY package*.json ./
-COPY . .
-
-RUN bun install
-RUN bun run build --sourcemap
+# Tell Puppeteer to skip installing Chrome. We'll be using the installed package.
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser \
+    PUPPETEER_CACHE_DIR=/home/web/.cache    
 
 # Install Google Chrome Stable and dependencies
 RUN apt-get update && apt-get install -y gnupg wget ca-certificates
@@ -22,5 +28,14 @@ fonts-liberation libappindicator1 libnss3 lsb-release xdg-utils && \
 rm -rf /var/lib/apt/lists/*
 
 
-# CMD ["bun", "run", "start"]
-CMD ["bun", "dist/index.js"]
+RUN mkdir -p /app
+WORKDIR /app
+
+COPY package*.json ./
+COPY . .
+
+RUN bun install
+RUN bun run build --sourcemap
+
+CMD ["bun", "run", "start"]
+# CMD ["bun", "dist/index.js"]
