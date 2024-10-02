@@ -2,6 +2,7 @@ import { connectClient } from "./services/whatsAppWeb/client";
 import { writeCredentials } from "./services/googleCredAuthorization/writeCredentials";
 import { onMessage } from "./services/whatsAppWeb/api/onMessageEvents";
 import { onShutDown } from "./appEvents/onShutDown";
+import logger from "./libraries/logger/logger";
 
 export const app = () => {
 	try {
@@ -9,7 +10,10 @@ export const app = () => {
 		connectClient();
 		onMessage();
 		onShutDown();
-	} catch (e: any) {
-		console.log(e.message);
+	} catch (err: any) {
+		logger.error(err.message, {
+			err,
+			from: "app()",
+		});
 	}
 };
