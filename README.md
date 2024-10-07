@@ -75,10 +75,8 @@ npm run dev
 
 ## Improvements
 
+- [ ] Add session for every private chat
 - [ ] Add dev & prod env.
-- [x] Put the hardcoded group name in .env to ease configuration.
-- [x] Add a logger.
-- [ ] The data inserted to Google Sheet by this application is not the exact data the church volunteers need. As of today (16 August 2024), this project is still a prototype.
 - [ ] Add tests
 
 - Feature wishlist:
