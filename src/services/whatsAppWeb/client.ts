@@ -4,23 +4,29 @@ import { onAuthFailure } from "./api/authentication/onAuthFailure";
 import { onQrCode } from "./api/authentication/onQrCode";
 
 export const client = new Client({
-  authStrategy: new LocalAuth(),
-  authTimeoutMs: 60 * 1000,
-  puppeteer: {
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    handleSIGINT: false,
-  },
+	authStrategy: new LocalAuth(),
+	authTimeoutMs: 60 * 1000,
+	puppeteer: {
+		args: [
+			"--no-sandbox",
+			"--disable-setuid-sandbox",
+			"--disable-dev-shm-usage",
+		],
+		handleSIGINT: false,
+		headless: true,
+		timeout: 120000, // Set the timeout to 2 minutes
+	},
 });
 
 export const connectClient = async () => {
-  client.initialize();
+	client.initialize();
 
-  //generate qr code for waweb connection
-  onQrCode();
+	//generate qr code for waweb connection
+	onQrCode();
 
-  //log ready when connection is established
-  onReady();
+	//log ready when connection is established
+	onReady();
 
-  //log error when connection unsuccessful
-  onAuthFailure();
+	//log error when connection unsuccessful
+	onAuthFailure();
 };
