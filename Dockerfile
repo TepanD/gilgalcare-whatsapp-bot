@@ -18,7 +18,10 @@ RUN apk add --no-cache \
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_CACHE_DIR=/home/web/.cache
 
+RUN npm install -g rimraf
+
 COPY package*.json ./
+RUN bun run clean:all
 COPY . .
 
 RUN bun install

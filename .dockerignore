@@ -12,3 +12,13 @@ helm-charts
 .editorconfig
 .idea
 coverage*
+
+bun.lockb
+
+#WAWeb authentication session folder
+.wwebjs_auth
+.wwebjs_cache 
+/.wwebjs_auth/
+/.wwebjs_cache/
+
+TODO.md
