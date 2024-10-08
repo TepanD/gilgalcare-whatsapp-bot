@@ -3,8 +3,12 @@ import { onReady } from "./api/authentication/onReady";
 import { onAuthFailure } from "./api/authentication/onAuthFailure";
 import { onQrCode } from "./api/authentication/onQrCode";
 
+const SESSION_FILE_PATH = "./dist/wwebjs/.wwebjs_auth";
+
 export const client = new Client({
-	authStrategy: new LocalAuth(),
+	authStrategy: new LocalAuth({
+		dataPath: SESSION_FILE_PATH,
+	}),
 	authTimeoutMs: 60 * 1000,
 	puppeteer: {
 		args: [
