@@ -19,12 +19,16 @@ ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 ENV PUPPETEER_CACHE_DIR=/home/web/.cache
 
 RUN npm install -g rimraf
-
 COPY package*.json ./
 RUN bun run clean:all
 COPY . .
 
+# Build project
 RUN bun install
 RUN bun run build
+
+# Create sqlite database
+RUN bunx drizzle-kit generate
+RUN bunx drizzle-kit migrate
 
 CMD ["bun", "run", "start"]

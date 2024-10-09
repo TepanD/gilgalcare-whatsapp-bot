@@ -2,6 +2,9 @@ import { config } from "../../../../config/config";
 import { client } from "../../client";
 import chatEvents from "./chatEvents";
 import newcomerEvents from "./newcomerEvents";
+import { sessions } from "./../../../../db/schema";
+import { db } from "./../../../../db/index";
+import { eq, sql } from "drizzle-orm";
 
 const SHEET_ID = config.GOOGLE_SHEETS_ID ?? "";
 const GROUP_NAME = config.WHATSAPP_GROUP_NAME ?? "";
@@ -22,7 +25,42 @@ export const onMessage = async () => {
 				IS_ADMIN = false;
 			}
 		});
-		console.log(`sender: ${senderNumber}, isAdmin: ${IS_ADMIN}`);
+
+		const result = await db
+			.select()
+			.from(sessions)
+			.where(eq(sessions.phoneNumber, senderNumber));
+
+		if (result.length === 1 && IS_ADMIN === true) {
+			// pakai expired date untuk kirim lagi chat "hi", mungkin expirednya kasih agak lama?
+			//const expiredDate = new Date(result[0].expiredDatetime);
+			// console.log(expiredDate);
+
+			await db
+				.update(sessions)
+				.set({
+					expiredDatetime: sql`DATETIME(CURRENT_TIMESTAMP, '+10 minutes')`,
+				})
+				.where(eq(sessions.phoneNumber, senderNumber));
+		} else if (result.length === 0 && IS_ADMIN === true) {
+			await db.insert(sessions).values({
+				chatId: chatData.id._serialized,
+				phoneNumber: senderNumber,
+				expiredDatetime: sql`DATETIME(CURRENT_TIMESTAMP, '+10 minutes')`,
+			});
+
+			msg.reply(
+				`Shalom! ✨✨ \n\n` +
+					`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
+					`--------------------------------------------------------------------------------------- \n\n` +
+					`FORM UNI \n` +
+					`Nama: \n` +
+					`Gender: M/F \n` +
+					`Tanggal Lahir: DD/MM/YYYY\n` +
+					`Nomor WA: `
+			);
+			return;
+		}
 
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {

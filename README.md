@@ -48,16 +48,14 @@ npm install
 
 3. The project currently only allow messages from WhatsApp group chats to fire events. The group chat name is hardcoded in `src\services\whatsAppWeb\api\onMessageEvents\index.ts` and `src\services\whatsAppWeb\api\authentication\onReady.ts`. Make sure the group chat name is the same as the one you're using.
 
-4. The project currently only allow inserts to google sheet that has this table format:
+4. The project has features that writes to google sheets, which actually is the main point of this project. Modifiable in-code (hardcoded 😂).
 
-| newcomerId | nama | tanggalLahir | alamat  |
-| ---------- | ---- | ------------ | ------- |
-| UNI00001   | name | birthDate    | address |
+- current table columns: ID, Name, Gender, BirthDate, Age, WANumber, FamilyCell, EntryType, EntryDate, EntryOperator, LastUpdate, LastOperator.
 
-5. Run the project using the following command using npm, or any script runner you have e.g. bun and pnpm.
+5. Run the project in development mode using the following command using bun, or any script runner you have e.g. npm and pnpm.
 
 ```bash
-npm run dev
+bun run dev
 ```
 
 6. A qr code will appear in the terminal when running the project. Scan the qr with WhatsApp qr scanner to allow the applicatioon to log in to WhatsAppWeb. The application will log "WAWeb connected successfully" or anything similar to indicate that the WAWeb client is connected.
