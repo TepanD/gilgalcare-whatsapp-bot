@@ -24,6 +24,7 @@ const {
 	GOOGLE_SHEET_NAME,
 	WHATSAPP_GROUP_NAME,
 	ADMIN_WA_NUMBER,
+	DB_FILE_NAME,
 } = process.env;
 
 export const config = {
@@ -40,4 +41,5 @@ export const config = {
 	GOOGLE_SHEET_NAME,
 	WHATSAPP_GROUP_NAME,
 	ADMIN_WA_NUMBER: ADMIN_WA_NUMBER?.split(",") || ["6287884873293"],
+	DB_FILE_NAME,
 };
