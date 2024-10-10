@@ -4,7 +4,7 @@ import chatEvents from "./chatEvents";
 import newcomerEvents from "./newcomerEvents";
 import { sessions } from "./../../../../db/schema";
 import { db } from "./../../../../db/index";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, count } from "drizzle-orm";
 
 const SHEET_ID = config.GOOGLE_SHEETS_ID ?? "";
 const GROUP_NAME = config.WHATSAPP_GROUP_NAME ?? "";
@@ -25,46 +25,27 @@ export const onMessage = async () => {
 				IS_ADMIN = false;
 			}
 		});
-
-		const result = await db
-			.select()
-			.from(sessions)
-			.where(eq(sessions.phoneNumber, senderNumber));
-
-		if (result.length === 1 && IS_ADMIN === true) {
-			// pakai expired date untuk kirim lagi chat "hi", mungkin expirednya kasih agak lama?
-			//const expiredDate = new Date(result[0].expiredDatetime);
-			// console.log(expiredDate);
-
-			await db
-				.update(sessions)
-				.set({
-					expiredDatetime: sql`DATETIME(CURRENT_TIMESTAMP, '+10 minutes')`,
-				})
-				.where(eq(sessions.phoneNumber, senderNumber));
-		} else if (result.length === 0 && IS_ADMIN === true) {
-			await db.insert(sessions).values({
-				chatId: chatData.id._serialized,
-				phoneNumber: senderNumber,
-				expiredDatetime: sql`DATETIME(CURRENT_TIMESTAMP, '+10 minutes')`,
-			});
-
-			msg.reply(
-				`Shalom! ✨✨ \n\n` +
-					`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
-					`--------------------------------------------------------------------------------------- \n\n` +
-					`FORM UNI \n` +
-					`Nama: \n` +
-					`Gender: M/F \n` +
-					`Tanggal Lahir: DD/MM/YYYY\n` +
-					`Nomor WA: `
-			);
-			return;
-		}
-
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {
+			const newSession = await validateSessionNew(
+				senderNumber,
+				chatData.id._serialized
+			);
 			const spreadSheetId = SHEET_ID;
+
+			if (newSession) {
+				msg.reply(
+					`Shalom! ✨✨ \n\n` +
+						`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
+						`--------------------------------------------------------------------------------------- \n\n` +
+						`FORM UNI \n` +
+						`Nama: \n` +
+						`Gender: M/F \n` +
+						`Tanggal Lahir: DD/MM/YYYY\n` +
+						`Nomor WA: `
+				);
+				return;
+			}
 
 			if (msg.body.toLowerCase().startsWith("daftar")) {
 				await newcomerEvents.addNewcomerInternal(spreadSheetId, msg);
@@ -116,7 +97,6 @@ export const onMessage = async () => {
 					return;
 
 				default:
-					// msg.reply(`welcome to GILGAL WA CHATBOT DEMO`);
 					return;
 			}
 		} else if (chatData.isGroup && chatData.name === GROUP_NAME && !IS_ADMIN) {
@@ -128,4 +108,43 @@ export const onMessage = async () => {
 			}
 		}
 	});
+};
+
+const validateSessionNew = async (
+	senderNumber: string,
+	chatId: string
+): Promise<Boolean> => {
+	const sessionsFound = await db
+		.select({ count: count() })
+		.from(sessions)
+		.where(eq(sessions.phoneNumber, senderNumber));
+
+	await db
+		.delete(sessions)
+		.where(
+			sql`${sessions.expiredDatetime} <= strftime('%s', 'now', '+7 hours')`
+		)
+		.returning();
+
+	if (sessionsFound[0].count === 1) {
+		// pakai expired date untuk kirim lagi chat "hi", mungkin expirednya kasih agak lama?
+		await db
+			.update(sessions)
+			.set({
+				expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + 600)`,
+			})
+			.where(eq(sessions.phoneNumber, senderNumber));
+
+		return false;
+	} else if (sessionsFound[0].count === 0) {
+		await db.insert(sessions).values({
+			chatId: chatId,
+			phoneNumber: senderNumber,
+			expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + 600)`,
+		});
+
+		return true;
+	}
+
+	return false;
 };
