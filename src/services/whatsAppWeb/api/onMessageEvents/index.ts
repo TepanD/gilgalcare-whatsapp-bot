@@ -27,7 +27,7 @@ export const onMessage = async () => {
 		});
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {
-			const newSession = await validateSessionNew(
+			const newSession: Boolean = await validateSessionNew(
 				senderNumber,
 				chatData.id._serialized
 			);
@@ -37,7 +37,7 @@ export const onMessage = async () => {
 				msg.reply(
 					`Shalom! ✨✨ \n\n` +
 						`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
-						`--------------------------------------------------------------------------------------- \n\n` +
+						`------------------------------------- \n\n` +
 						`FORM UNI \n` +
 						`Nama: \n` +
 						`Gender: M/F \n` +
