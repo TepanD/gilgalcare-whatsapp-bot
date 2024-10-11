@@ -13,7 +13,7 @@
     "compile": "bun build --compile --minify --sourcemap ./src/index.ts --outfile gilgalcare-wa-bot",
     "migrate": "bunx drizzle-kit generate && bunx drizzle-kit migrate",
     "clean": "rimraf dist",
-    "clean:all": "rimraf .wwebjs_auth .wwebjs_cache drizzle logs dist",
+    "clean:all": "rimraf .wwebjs_cache drizzle dist",
     "postinstall": "patch-package"
   },
   "keywords": [
