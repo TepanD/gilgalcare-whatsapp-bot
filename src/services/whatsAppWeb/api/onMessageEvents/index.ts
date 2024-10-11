@@ -14,6 +14,7 @@ export const onMessage = async () => {
 	client.on("message_create", async (msg) => {
 		//get chat data.
 		const chatData = await msg.getChat();
+		const chatId = chatData.id._serialized;
 		const senderNumber = (await msg.getContact()).number;
 		const adminNumbers = config.ADMIN_WA_NUMBER;
 
@@ -25,16 +26,18 @@ export const onMessage = async () => {
 				IS_ADMIN = false;
 			}
 		});
+
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {
 			const newSession: Boolean = await validateSessionNew(
 				senderNumber,
-				chatData.id._serialized
+				chatId
 			);
 			const spreadSheetId = SHEET_ID;
 
 			if (newSession) {
-				msg.reply(
+				client.sendMessage(
+					chatId,
 					`Shalom! ✨✨ \n\n` +
 						`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
 						`------------------------------------- \n\n` +
