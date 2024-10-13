@@ -27,6 +27,7 @@
     "@libsql/client": "^0.14.0",
     "@types/qrcode-terminal": "^0.12.2",
     "bun": "^1.1.29",
+    "dotenv": "^16.4.5",
     "dotenv-safe": "^9.1.0",
     "drizzle-orm": "^0.34.1",
     "googleapis": "^140.0.1",
