@@ -3,11 +3,11 @@ import { writeCredentials } from "./services/googleCredAuthorization/writeCreden
 import { onMessage } from "./services/whatsAppWeb/api/onMessageEvents";
 import { onShutDown } from "./appEvents/onShutDown";
 import logger from "./libraries/logger/logger";
-import dotenv from "dotenv";
 
 export const app = () => {
 	try {
-		dotenv.config();
+		console.log(process.env.NODE_ENV);
+
 		writeCredentials();
 		connectClient();
 		onMessage();

@@ -11,6 +11,7 @@ bun.lockb
 dist
 
 .env
+.env.development
 .env.production
 logs
 TODO.md
