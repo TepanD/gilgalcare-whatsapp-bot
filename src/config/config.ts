@@ -2,9 +2,10 @@ import dotenvSafe from "dotenv-safe";
 
 dotenvSafe.config({
 	path:
-		process.env.NODE_ENV === "production"
+		process.env.NODE_ENV?.trim() === "production"
 			? ".env.production"
 			: ".env.development",
+	allowEmptyValues: true,
 });
 
 const {

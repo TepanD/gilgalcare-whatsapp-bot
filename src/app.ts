@@ -6,8 +6,6 @@ import logger from "./libraries/logger/logger";
 
 export const app = () => {
 	try {
-		console.log(process.env.NODE_ENV);
-
 		writeCredentials();
 		connectClient();
 		onMessage();
