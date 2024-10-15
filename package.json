@@ -6,7 +6,7 @@
   "scripts": {
     "start": "bunx cross-env NODE_ENV=production bun dist/index.js",
     "pm2:start": "pm2 start pm2.config.js",
-    "build": "bun build ./src/index.ts --outdir dist --target bun --format esm && bun migrate",
+    "build": "bun build ./src/index.ts --outdir dist --define process.env.NODE_ENV='\"production\"' --target bun --format esm && bun migrate",
     "migrate": "bunx drizzle-kit generate && bunx drizzle-kit migrate",
     "dev": "concurrently \"bun watch-compile\" \"bun watch-dev\"",
     "watch-compile": "bun build ./src/index.ts --outdir dist --target bun --format esm --watch",
