@@ -3,7 +3,7 @@ import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 
 export const sessions = sqliteTable("sessions", {
 	sessionId: integer({ mode: "number" }).primaryKey({ autoIncrement: true }),
-	chatId: text().unique().notNull(),
+	chatId: text().notNull(),
 	phoneNumber: text(),
 	expiredDatetime: integer({ mode: "timestamp" }).notNull(),
 	createdAt: integer("created_at", { mode: "timestamp" }).default(
