@@ -5,7 +5,7 @@ import { eq, sql, count } from "drizzle-orm";
 export const validateSession = async (
 	senderNumber: string,
 	chatId: string
-): Promise<Boolean> => {
+): Promise<boolean> => {
 	const sessionsFound = await db
 		.select({ count: count() })
 		.from(sessions)
