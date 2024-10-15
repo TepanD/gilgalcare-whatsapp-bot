@@ -1,13 +1,11 @@
 import dotenvSafe from "dotenv-safe";
-import path from "path";
-
-const cwd = process.cwd();
-const root = (...args: string[]) => path.join(cwd, ...args);
 
 dotenvSafe.config({
-	path: root(".env"),
+	path:
+		process.env.NODE_ENV?.trim() === "production"
+			? ".env.production"
+			: ".env.development",
 	allowEmptyValues: true,
-	// sample: root(".env.example")
 });
 
 const {

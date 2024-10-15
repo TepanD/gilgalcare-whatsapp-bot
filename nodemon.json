@@ -4,5 +4,5 @@
   ],
   "ext": ".ts,.js",
   "ignore": [],
-  "exec": "bun ./src/index.ts"
+  "exec": "bunx cross-env NODE_ENV=development bun ./src/index.ts"
 }
