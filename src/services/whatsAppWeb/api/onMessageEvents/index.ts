@@ -11,10 +11,10 @@ let IS_ADMIN = false;
 export const onMessage = async () => {
 	client.on("message_create", async (msg) => {
 		//get chat data.
+		const adminNumbers = config.ADMIN_WA_NUMBER;
 		const chatData = await msg.getChat();
 		const chatId = chatData.id._serialized;
 		const senderNumber = (await msg.getContact()).number;
-		const adminNumbers = config.ADMIN_WA_NUMBER;
 
 		adminNumbers.forEach((element) => {
 			if (element === senderNumber) {
