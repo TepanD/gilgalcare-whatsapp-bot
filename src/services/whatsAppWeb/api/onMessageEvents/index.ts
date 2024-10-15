@@ -5,8 +5,8 @@ import { adminEvents } from "./adminEvents";
 import { userEvents } from "./userEvents";
 
 const SHEET_ID = config.GOOGLE_SHEETS_ID ?? "";
-// const GROUP_NAME = config.WHATSAPP_GROUP_NAME ?? "";
 let IS_ADMIN = false;
+const ENV = process.env.NODE_ENV;
 
 export const onMessage = async () => {
 	client.on("message_create", async (msg) => {
@@ -29,8 +29,18 @@ export const onMessage = async () => {
 		const newSession: boolean = await validateSession(senderNumber, chatId);
 		const spreadSheetId = SHEET_ID;
 
-		//to validate chat is group && group name use:
-		//chatData.isGroup && chatData.name === GROUP_NAME &&
+		//for dev env
+		if (ENV === "development") {
+			const groupName = config.WHATSAPP_GROUP_NAME ?? "";
+			if (chatData.isGroup && chatData.name === groupName && IS_ADMIN) {
+				await adminEvents(msg, spreadSheetId);
+				return;
+			} else if (chatData.isGroup && chatData.name === groupName && !IS_ADMIN) {
+				await userEvents(msg, client, chatId, spreadSheetId, newSession);
+				return;
+			}
+			return;
+		}
 
 		if (IS_ADMIN) {
 			await adminEvents(msg, spreadSheetId);
