@@ -27,29 +27,11 @@ export const onMessage = async () => {
 			}
 		});
 
+		const newSession: Boolean = await validateSessionNew(senderNumber, chatId);
+		const spreadSheetId = SHEET_ID;
+
 		//validate chat is group && group name
 		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {
-			const newSession: Boolean = await validateSessionNew(
-				senderNumber,
-				chatId
-			);
-			const spreadSheetId = SHEET_ID;
-
-			if (newSession) {
-				client.sendMessage(
-					chatId,
-					`Shalom! ✨✨ \n\n` +
-						`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
-						`------------------------------------- \n\n` +
-						`FORM UNI \n` +
-						`Nama: \n` +
-						`Gender: M/F \n` +
-						`Tanggal Lahir: DD/MM/YYYY\n` +
-						`Nomor WA: `
-				);
-				return;
-			}
-
 			if (msg.body.toLowerCase().startsWith("daftar")) {
 				await newcomerEvents.addNewcomerInternal(spreadSheetId, msg);
 				return;
@@ -103,7 +85,20 @@ export const onMessage = async () => {
 					return;
 			}
 		} else if (chatData.isGroup && chatData.name === GROUP_NAME && !IS_ADMIN) {
-			const spreadSheetId = SHEET_ID;
+			if (newSession) {
+				client.sendMessage(
+					chatId,
+					`Shalom! ✨✨ \n\n` +
+						`Silakan copy form di bawah dan diisi sesuai panduan. (copy form yang berada *di bawah* garis pembatas) \n` +
+						`------------------------------------- \n\n` +
+						`FORM UNI \n` +
+						`Nama: \n` +
+						`Gender: M/F \n` +
+						`Tanggal Lahir: DD/MM/YYYY\n` +
+						`Nomor WA: `
+				);
+				return;
+			}
 
 			if (msg.body.toLowerCase().startsWith("form uni")) {
 				await newcomerEvents.addNewcomerExternal(spreadSheetId, msg);
