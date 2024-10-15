@@ -33,8 +33,4 @@ RUN bun run clean:all
 RUN bun install
 RUN bun run build
 
-# Create sqlite database
-RUN bunx drizzle-kit generate
-RUN bunx drizzle-kit migrate
-
 CMD ["bun", "run", "start"]
