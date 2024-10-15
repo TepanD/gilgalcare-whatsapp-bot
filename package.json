@@ -28,7 +28,6 @@
     "@types/qrcode-terminal": "^0.12.2",
     "bun": "^1.1.29",
     "cross-env": "^7.0.3",
-    "dotenv": "^16.4.5",
     "dotenv-safe": "^9.1.0",
     "drizzle-orm": "^0.34.1",
     "googleapis": "^140.0.1",
