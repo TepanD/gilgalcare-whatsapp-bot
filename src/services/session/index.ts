@@ -1,15 +1,19 @@
 import { sessions } from "./../../db/schema";
 import { db } from "./../../db/index";
-import { eq, sql, count } from "drizzle-orm";
+import { eq, sql, count, and } from "drizzle-orm";
+
+const EXPIRED_IN_MINUTES = 10;
 
 export const validateSession = async (
 	senderNumber: string,
 	chatId: string
-): Promise<Boolean> => {
+): Promise<boolean> => {
 	const sessionsFound = await db
 		.select({ count: count() })
 		.from(sessions)
-		.where(eq(sessions.phoneNumber, senderNumber));
+		.where(
+			and(eq(sessions.phoneNumber, senderNumber), eq(sessions.chatId, chatId))
+		);
 
 	await db
 		.delete(sessions)
@@ -23,7 +27,9 @@ export const validateSession = async (
 		await db
 			.update(sessions)
 			.set({
-				expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + 600)`,
+				expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + ${
+					EXPIRED_IN_MINUTES * 60
+				})`,
 			})
 			.where(eq(sessions.phoneNumber, senderNumber));
 
@@ -32,7 +38,9 @@ export const validateSession = async (
 		await db.insert(sessions).values({
 			chatId: chatId,
 			phoneNumber: senderNumber,
-			expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + 600)`,
+			expiredDatetime: sql`(strftime('%s', 'now', '+7 hours') + ${
+				EXPIRED_IN_MINUTES * 60
+			})`,
 		});
 
 		return true;
