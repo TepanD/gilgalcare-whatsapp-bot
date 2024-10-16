@@ -3,16 +3,16 @@ import winston, { format, transports } from "winston";
 import fs from "fs";
 import DailyRotateFile from "winston-daily-rotate-file";
 
-const logDir = "logs";
-if (!fs.existsSync(logDir)) {
-	fs.mkdirSync(logDir);
+const LOG_DIR = "./dist/logs";
+if (!fs.existsSync(LOG_DIR)) {
+	fs.mkdirSync(LOG_DIR);
 }
 
 //transport file options
 const transportFile = new DailyRotateFile({
 	level: "info",
 	filename: "newcomer-whatsapp-bot-%DATE%.log",
-	dirname: logDir,
+	dirname: LOG_DIR,
 	datePattern: "DD-MM-YYYY-HH",
 	zippedArchive: false,
 	maxSize: "50m",

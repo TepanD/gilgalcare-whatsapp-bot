@@ -22,3 +22,6 @@ bun.lockb
 /.wwebjs_cache/
 
 TODO.md
+
+drizzle
+/drizzle/

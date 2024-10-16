@@ -11,9 +11,17 @@ bun.lockb
 dist
 
 .env
+.env.development
+.env.production
 logs
 TODO.md
 
 #googleapis credentials
 credentials.json
 pm2.config.js
+
+drizzle
+/drizzle/
+
+drizzle
+/drizzle/

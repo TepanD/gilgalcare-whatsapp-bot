@@ -1,18 +1,19 @@
 {
   "name": "gilgalcare-whatsapp-bot",
-  "version": "0.1.4",
+  "version": "0.2.3",
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "build": "bun build ./src/index.ts --outdir dist --target bun --format esm",
+    "start": "bunx cross-env NODE_ENV=production bun dist/index.js",
+    "pm2:start": "pm2 start pm2.config.js",
+    "build": "bun build ./src/index.ts --outdir dist --define process.env.NODE_ENV='\"production\"' --target bun --format esm && bun migrate",
+    "migrate": "bunx drizzle-kit generate && bunx drizzle-kit migrate",
     "dev": "concurrently \"bun watch-compile\" \"bun watch-dev\"",
     "watch-compile": "bun build ./src/index.ts --outdir dist --target bun --format esm --watch",
     "watch-dev": "bun run nodemon",
-    "start": "NODE_ENV=production bun dist/index.js",
-    "pm2:start": "pm2 start pm2.config.js",
     "compile": "bun build --compile --minify --sourcemap ./src/index.ts --outfile gilgalcare-wa-bot",
     "clean": "rimraf dist",
-    "clean:all": "rimraf .wwebjs_auth .wwebjs_cache logs dist",
+    "clean:all": "rimraf .wwebjs_cache drizzle dist",
     "postinstall": "patch-package"
   },
   "keywords": [
@@ -23,9 +24,12 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/local-auth": "^3.0.1",
+    "@libsql/client": "^0.14.0",
     "@types/qrcode-terminal": "^0.12.2",
     "bun": "^1.1.29",
+    "cross-env": "^7.0.3",
     "dotenv-safe": "^9.1.0",
+    "drizzle-orm": "^0.34.1",
     "googleapis": "^140.0.1",
     "patch-package": "^8.0.0",
     "qrcode-terminal": "^0.12.0",
@@ -38,6 +42,7 @@
     "@types/bun": "latest",
     "@types/dotenv-safe": "^8.1.6",
     "concurrently": "^8.2.2",
+    "drizzle-kit": "^0.25.0",
     "nodemon": "^3.1.4",
     "ts-node-dev": "^2.0.0"
   },
