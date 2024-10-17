@@ -1,10 +1,14 @@
 #!/bin/bash
-#type bash in powershell
+# Read the GOOGLE_PRIVATE_KEY from the .env.production file
+GOOGLE_PRIVATE_KEY=$(grep -E '^GOOGLE_PRIVATE_KEY=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')
+
+# Ensure proper escaping of special characters (newlines, spaces) by preserving quotes
+GOOGLE_PRIVATE_KEY_ESCAPED=$(printf "%s" "$GOOGLE_PRIVATE_KEY" | sed -e 's/"/\\"/g')
 
 docker build\
  --build-arg GOOGLE_PROJECT_ID=$(grep -E '^GOOGLE_PROJECT_ID=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
  --build-arg GOOGLE_PRIVATE_KEY_ID=$(grep -E '^GOOGLE_PRIVATE_KEY_ID=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
- --build-arg GOOGLE_PRIVATE_KEY=\"$(grep -E '^GOOGLE_PRIVATE_KEY=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\"\
+ --build-arg GOOGLE_PRIVATE_KEY=\"$GOOGLE_PRIVATE_KEY_ESCAPED\"\
  --build-arg GOOGLE_SERVICE_ACCOUNT_EMAIL=$(grep -E '^GOOGLE_SERVICE_ACCOUNT_EMAIL=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
  --build-arg GOOGLE_CLIENT_ID=$(grep -E '^GOOGLE_CLIENT_ID=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
  --build-arg GOOGLE_AUTH_URI=$(grep -E '^GOOGLE_AUTH_URI=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
