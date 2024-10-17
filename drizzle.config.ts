@@ -1,12 +1,3 @@
-import dotenvSafe from "dotenv-safe";
-
-dotenvSafe.config({
-	path:
-		process.env.NODE_ENV === "production"
-			? ".env.production"
-			: ".env.development",
-});
-
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
@@ -14,6 +5,6 @@ export default defineConfig({
 	schema: "./src/db/schema.ts",
 	dialect: "sqlite",
 	dbCredentials: {
-		url: process.env.DB_FILE_NAME!,
+		url: "./dist/gc-uni-wa.sqlite",
 	},
 });

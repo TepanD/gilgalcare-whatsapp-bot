@@ -25,3 +25,12 @@ TODO.md
 
 drizzle
 /drizzle/
+
+.env.*
+.env
+
+node_modules
+
+#googleapis credentials
+credentials.json
+pm2.config*
