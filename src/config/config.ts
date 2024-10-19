@@ -1,12 +1,14 @@
 import dotenvSafe from "dotenv-safe";
 
-dotenvSafe.config({
-	path:
-		process.env.NODE_ENV?.trim() === "production"
-			? ".env.production"
-			: ".env.development",
-	allowEmptyValues: true,
-});
+if (process.env.NODE_ENV !== "production") {
+	dotenvSafe.config({
+		path:
+			process.env.NODE_ENV?.trim() === "production"
+				? ".env.production"
+				: ".env.development",
+		allowEmptyValues: true,
+	});
+}
 
 const {
 	GOOGLE_PROJECT_ID,
