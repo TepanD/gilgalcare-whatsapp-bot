@@ -15,6 +15,8 @@ GOOGLE_CLIENT_CERT_URL_ESCAPED=$(printf "%s" "$GOOGLE_CLIENT_CERT_URL" | sed -e 
 GOOGLE_SHEETS_ID_ESCAPED=$(printf "%s" "$GOOGLE_SHEETS_ID" | sed -e 's/"/\\"/g')
 # DB_FILE_NAME_ESCAPED=$(printf "%s" "$DB_FILE_NAME" | sed -e 's/"/\\"/g')
 
+app_version=$(grep '"version":' package.json | sed -E 's/.*"version": "([^"]+)".*/\1/')
+
 docker build\
  --build-arg GOOGLE_PROJECT_ID='$GOOGLE_PROJECT_ID_ESCAPED'\
  --build-arg GOOGLE_PRIVATE_KEY_ID=$(grep -E '^GOOGLE_PRIVATE_KEY_ID=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
@@ -30,4 +32,4 @@ docker build\
  --build-arg ADMIN_WA_NUMBER="\"$(grep -E '^ADMIN_WA_NUMBER=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\""\
  --build-arg WHATSAPP_GROUP_NAME=$(grep -E '^WHATSAPP_GROUP_NAME=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
  --build-arg DB_FILE_NAME=$(grep -E '^DB_FILE_NAME=' .env.production | sed -E 's/^.*="?([^"]*)"?/\1/')\
- --no-cache -t tepand/gilgalunicare-wa:0.2.3 .
+ --no-cache -t tepand/gilgalunicare-wa:$app_version .
