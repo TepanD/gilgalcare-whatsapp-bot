@@ -73,6 +73,8 @@ bun run dev
 
 ## Improvements
 
+- [ ] Add session for every private chat
+- [ ] Add dev & prod env.
 - [ ] Add tests
 - [ ] Add a command to download the google sheet file in use.
 
