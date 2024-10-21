@@ -34,6 +34,7 @@ const insertNewcomer = async (
 	//generate newcomer id
 	const generateNewcomerIdResponse = await generateNewComerID(
 		sheetsService,
+		SHEET_NAME,
 		spreadSheetId,
 		returnResponse
 	);
@@ -59,6 +60,7 @@ const insertNewcomer = async (
 		const insertResult = await sheetsRepo.insertNewRow(
 			sheetsService,
 			spreadSheetId,
+			SHEET_NAME,
 			newRowIndex,
 			data
 		);
@@ -83,13 +85,14 @@ const insertNewcomer = async (
 
 const generateNewComerID = async (
 	sheetsService: sheets_v4.Sheets,
+	sheetName: string,
 	spreadSheetId: string,
 	returnResponse: ResponseHelper
 ): Promise<ResponseHelper> => {
 	const ids = (await sheetsRepo.getRowValue(
 		sheetsService,
 		spreadSheetId,
-		"test_byWA!A2:A"
+		`${sheetName}!A2:A`
 	)) ?? [[0]];
 
 	const today = new Date();

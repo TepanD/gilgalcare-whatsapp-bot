@@ -1,93 +1,58 @@
+import { validateSession } from "./../../../../services/session";
 import { config } from "../../../../config/config";
 import { client } from "../../client";
-import chatEvents from "./chatEvents";
-import newcomerEvents from "./newcomerEvents";
+import { adminEvents } from "./adminEvents";
+import { userEvents } from "./userEvents";
+import logger from "../../../../libraries/logger/logger";
 
 const SHEET_ID = config.GOOGLE_SHEETS_ID ?? "";
-const GROUP_NAME = config.WHATSAPP_GROUP_NAME ?? "";
 let IS_ADMIN = false;
+const ENV = process.env.NODE_ENV;
 
 export const onMessage = async () => {
 	client.on("message_create", async (msg) => {
+		const adminNumbers = config.ADMIN_WA_NUMBER;
+		logger.info("admin:" + adminNumbers);
+
 		//get chat data.
 		const chatData = await msg.getChat();
+		const chatId = chatData.id._serialized;
 		const senderNumber = (await msg.getContact()).number;
-		const adminNumbers = config.ADMIN_WA_NUMBER;
 
+		//validate role
 		adminNumbers.forEach((element) => {
-			if (element === senderNumber) {
+			if (element.trim() === senderNumber.trim()) {
 				IS_ADMIN = true;
 				return false;
-			} else {
-				IS_ADMIN = false;
 			}
 		});
-		console.log(`sender: ${senderNumber}, isAdmin: ${IS_ADMIN}`);
 
-		//validate chat is group && group name
-		if (chatData.isGroup && chatData.name === GROUP_NAME && IS_ADMIN) {
-			const spreadSheetId = SHEET_ID;
+		logger.info(senderNumber + " is admin: " + IS_ADMIN);
 
-			if (msg.body.toLowerCase().startsWith("daftar")) {
-				await newcomerEvents.addNewcomerInternal(spreadSheetId, msg);
+		const newSession: boolean = await validateSession(senderNumber, chatId);
+		const spreadSheetId = SHEET_ID;
+		const groupName = config.WHATSAPP_GROUP_NAME ?? "";
+
+		//for dev env
+		if (ENV === "development") {
+			if (chatData.isGroup && chatData.name === groupName && IS_ADMIN) {
+				await adminEvents(msg, spreadSheetId);
+				return;
+			} else if (chatData.isGroup && chatData.name === groupName && !IS_ADMIN) {
+				await userEvents(msg, client, chatId, spreadSheetId, newSession);
 				return;
 			}
+			return;
+		}
 
-			if (msg.body.toLowerCase().startsWith("form uni")) {
-				await newcomerEvents.addNewcomerExternal(spreadSheetId, msg);
-				return;
-			}
+		if (chatData.isGroup && chatData.name !== groupName) return;
 
-			//commands
-			switch (msg.body.toLocaleLowerCase()) {
-				case "!help":
-					msg.reply(
-						`✨✨ *LIST OF COMMANDS* ✨✨ \n\n` +
-							`--------------------------------\n` +
-							`GILGAL UNI CHATBOT DEMO\n` +
-							`--------------------------------\n` +
-							`📌LIST OF FORMS\n\n` +
-							`  ✳️  !form-internal\n` +
-							`  ✳️  !form-external\n\n` +
-							`--------------------------------\n` +
-							`📌LIST OF CHAT MANAGEMENT\n\n` +
-							`  ✳️  !clear\n`
-					);
-					return;
-
-				case "!form-internal":
-					msg.reply(
-						`*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n` +
-							`daftar #nama #(M/F) #umur(dalam tahun) #nomorWA #familyCell`
-					);
-					return;
-
-				case "!form-external":
-					msg.reply(
-						`*FORMAT PENDAFTARAN* (copy semua yang di bawah): \n\n` +
-							`FORM UNI \n` +
-							`Nama: \n` +
-							`Gender: M/F \n` +
-							`Tanggal Lahir: DD/MM/YYYY\n` +
-							`Nomor WA: `
-					);
-					return;
-
-				case "!clear":
-					await chatEvents.clearMessages(msg);
-					return;
-
-				default:
-					// msg.reply(`welcome to GILGAL WA CHATBOT DEMO`);
-					return;
-			}
-		} else if (chatData.isGroup && chatData.name === GROUP_NAME && !IS_ADMIN) {
-			const spreadSheetId = SHEET_ID;
-
-			if (msg.body.toLowerCase().startsWith("form uni")) {
-				await newcomerEvents.addNewcomerExternal(spreadSheetId, msg);
-				return;
-			}
+		if (IS_ADMIN) {
+			await adminEvents(msg, spreadSheetId);
+			return;
+		} else if (!IS_ADMIN) {
+			await userEvents(msg, client, chatId, spreadSheetId, newSession);
+			return;
 		}
 	});
 };

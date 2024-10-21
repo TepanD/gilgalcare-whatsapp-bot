@@ -2,9 +2,14 @@ import { Client, LocalAuth } from "whatsapp-web.js";
 import { onReady } from "./api/authentication/onReady";
 import { onAuthFailure } from "./api/authentication/onAuthFailure";
 import { onQrCode } from "./api/authentication/onQrCode";
+import logger from "./../../libraries/logger/logger";
+
+const SESSION_FILE_PATH = "./dist/wwebjs/.wwebjs_auth";
 
 export const client = new Client({
-	authStrategy: new LocalAuth(),
+	authStrategy: new LocalAuth({
+		dataPath: SESSION_FILE_PATH,
+	}),
 	authTimeoutMs: 60 * 1000,
 	puppeteer: {
 		args: [
@@ -19,14 +24,21 @@ export const client = new Client({
 });
 
 export const connectClient = async () => {
-	client.initialize();
+	try {
+		client.initialize();
 
-	//generate qr code for waweb connection
-	onQrCode();
+		//generate qr code for waweb connection
+		onQrCode();
 
-	//log ready when connection is established
-	onReady();
+		//log ready when connection is established
+		onReady();
 
-	//log error when connection unsuccessful
-	onAuthFailure();
+		//log error when connection unsuccessful
+		onAuthFailure();
+	} catch (e: any) {
+		logger.error("Error connecting to client" + e.message, {
+			e,
+			from: "connectClient()",
+		});
+	}
 };

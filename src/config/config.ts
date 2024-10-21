@@ -1,14 +1,14 @@
 import dotenvSafe from "dotenv-safe";
-import path from "path";
 
-const cwd = process.cwd();
-const root = (...args: string[]) => path.join(cwd, ...args);
-
-dotenvSafe.config({
-	path: root(".env"),
-	allowEmptyValues: true,
-	// sample: root(".env.example")
-});
+if (process.env.NODE_ENV !== "production") {
+	dotenvSafe.config({
+		path:
+			process.env.NODE_ENV?.trim() === "production"
+				? ".env.production"
+				: ".env.development",
+		allowEmptyValues: true,
+	});
+}
 
 const {
 	GOOGLE_PROJECT_ID,
@@ -24,6 +24,7 @@ const {
 	GOOGLE_SHEET_NAME,
 	WHATSAPP_GROUP_NAME,
 	ADMIN_WA_NUMBER,
+	DB_FILE_NAME,
 } = process.env;
 
 export const config = {
@@ -40,4 +41,5 @@ export const config = {
 	GOOGLE_SHEET_NAME,
 	WHATSAPP_GROUP_NAME,
 	ADMIN_WA_NUMBER: ADMIN_WA_NUMBER?.split(",") || ["6287884873293"],
+	DB_FILE_NAME,
 };
