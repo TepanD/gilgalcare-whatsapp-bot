@@ -56,7 +56,7 @@ const addNewcomerInternal = async (spreadSheetId: string, message: Message) => {
 		message.react("❌");
 		return;
 	}
-	message.reply("data berhasil diupdate. ty.");
+	message.reply("data berhasil diinput. ty.");
 	message.react("✅");
 	return;
 };
@@ -114,7 +114,7 @@ const addNewcomerExternal = async (spreadSheetId: string, message: Message) => {
 		message.reply(insertResult.message ?? "Error inserting data.");
 		message.react("❌");
 	}
-	message.reply("data berhasil diupdate. ty.");
+	message.reply("Form submitted. Terima kasih, Tuhan memberkati! 😁");
 	message.react("✅");
 	return;
 };
