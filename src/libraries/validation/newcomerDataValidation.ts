@@ -29,7 +29,7 @@ const newcomerValidation = (arrayData: string[]): ResponseHelper => {
 	//gender
 	if (arrayData[1] !== "F" && arrayData[1] !== "M") {
 		returnResponse.isSuccess = false;
-		returnResponse.message = "Gender harus berupa M atau F";
+		returnResponse.message = "Gender harus berupa *M* atau *F*";
 		return returnResponse;
 	}
 
@@ -37,7 +37,7 @@ const newcomerValidation = (arrayData: string[]): ResponseHelper => {
 	if (arrayData[2] !== "N/A") {
 		if (!birthDateValidation.validateBirthDate(arrayData[2])) {
 			returnResponse.isSuccess = false;
-			returnResponse.message = "Format tanggal lahir DD/MM/YYYY";
+			returnResponse.message = "Format tanggal lahir harus *DD/MM/YYYY*";
 			return returnResponse;
 		} else {
 			arrayData[2] = birthDateValidation.formatBirthdate(arrayData[2]);

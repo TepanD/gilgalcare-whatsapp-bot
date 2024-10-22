@@ -52,7 +52,7 @@ const addNewcomerInternal = async (spreadSheetId: string, message: Message) => {
 		operator ?? ""
 	);
 	if (!insertResult.isSuccess) {
-		message.reply(insertResult.message ?? "Error inserting data.");
+		message.reply(insertResult.message ?? "Error: Kesalahan saat insert data");
 		message.react("❌");
 		return;
 	}
@@ -74,8 +74,10 @@ const addNewcomerExternal = async (spreadSheetId: string, message: Message) => {
 	const operator = (await message.getContact()).number;
 
 	if (extractedData.name === "") {
-		message.reply("Data input is not valid, kindly recheck the values.");
-		message.react("❌");
+		message.reply(
+			"Silakan periksa kembali atau laporkan pada Care Team GILGAL UNI."
+		);
+		message.react("🤔");
 	}
 
 	logger.info(`Newcomer data received from ${operator}`, {
@@ -98,11 +100,10 @@ const addNewcomerExternal = async (spreadSheetId: string, message: Message) => {
 			newcomerValidationResult.message ??
 				"Error: Terdapat kesalahan validasi data"
 		);
-		message.react("❌");
+		message.react("🤔");
 		return;
 	}
 	dataArray = newcomerValidationResult.object;
-	//logger.debug(dataArray);
 
 	const insertResult: ResponseHelper = await newcomerController.insertNewcomer(
 		spreadSheetId,
@@ -111,7 +112,7 @@ const addNewcomerExternal = async (spreadSheetId: string, message: Message) => {
 		operator ?? ""
 	);
 	if (!insertResult.isSuccess) {
-		message.reply(insertResult.message ?? "Error inserting data.");
+		message.reply(insertResult.message ?? "Error: kesalahan saat insert data");
 		message.react("❌");
 	}
 	message.reply("Form submitted. Terima kasih, Tuhan memberkati! 😁");
