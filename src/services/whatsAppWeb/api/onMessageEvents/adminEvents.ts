@@ -22,7 +22,7 @@ export const adminEvents = async (
 			msg.reply(
 				`✨✨ *LIST OF COMMANDS* ✨✨ \n\n` +
 					`--------------------------------\n` +
-					`GILGAL UNI CHATBOT DEMO\n` +
+					`GILGAL UNI CHATBOT (DEMO)\n` +
 					`--------------------------------\n` +
 					`📌LIST OF FORMS\n\n` +
 					`  ✳️  !form-internal\n` +
